@@ -1,0 +1,136 @@
+{
+  "name": "proposal-system-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Template Proposal Management System",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "build": "echo 'Build complete'",
+    "db:migrate": "node src/database/migrate.js",
+    "db:seed": "node src/database/seed.js",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write src/"
+  },
+  "keywords": [
+    "proposal",
+    "template",
+    "management",
+    "api",
+    "backend",
+    "nodejs",
+    "express",
+    "postgresql"
+  ],
+  "author": "MDSMedia Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "compression": "^1.7.4",
+    "dotenv": "^16.3.1",
+    "pg": "^8.11.3",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "joi": "^17.9.2",
+    "uuid": "^9.0.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.7",
+    "ws": "^8.14.2",
+    "socket.io": "^4.7.4",
+    "axios": "^1.6.2",
+    "winston": "^3.10.0",
+    "winston-daily-rotate-file": "^4.7.1",
+    "rate-limiter-flexible": "^2.4.2",
+    "express-rate-limit": "^6.10.0",
+    "express-validator": "^7.0.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "cookie-parser": "^1.4.6",
+    "express-session": "^1.17.3",
+    "connect-pg-simple": "^9.0.0",
+    "nodemon": "^3.0.1",
+    "jest": "^29.6.2",
+    "supertest": "^6.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.10",
+    "@types/express": "^4.17.17",
+    "@types/cors": "^2.8.13",
+    "@types/helmet": "^4.0.0",
+    "@types/morgan": "^1.9.4",
+    "@types/compression": "^1.7.2",
+    "@types/pg": "^8.10.2",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/joi": "^17.2.5",
+    "@types/uuid": "^9.0.2",
+    "@types/multer": "^1.4.7",
+    "@types/nodemailer": "^6.4.13",
+    "@types/ws": "^8.5.4",
+    "@types/swagger-jsdoc": "^6.2.8",
+    "@types/swagger-ui-express": "^4.1.6",
+    "@types/cookie-parser": "^1.4.3",
+    "@types/express-session": "^1.17.7",
+    "@types/connect-pg-simple": "^7.0.3",
+    "@types/jest": "^29.5.5",
+    "@types/supertest": "^2.0.12",
+    "eslint": "^8.49.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/__tests__/**/*.js",
+      "**/?(*.)+(spec|test).js"
+    ],
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 70,
+        "functions": 70,
+        "lines": 70,
+        "statements": 70
+      }
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "prettier"
+    ],
+    "rules": {
+      "no-unused-vars": "error",
+      "no-console": "warn",
+      "prefer-const": "error",
+      "no-var": "error"
+    }
+  },
+  "prettier": {
+    "semi": true,
+    "trailingComma": true,
+    "singleQuote": true,
+    "printWidth": 80,
+    "tabWidth": 2
+  }
+}
+```
+
+### **Buat Database Configuration**

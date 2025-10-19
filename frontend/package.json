@@ -1,0 +1,54 @@
+{
+  "name": "mdmedia-proposal-system",
+  "version": "1.0.0",
+  "description": "MDMEDIA Strategic Proposal Submission Management System",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "db:push": "prisma db push",
+    "db:seed": "tsx src/data/seed.ts",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "@next-auth/prisma-adapter": "^1.0.7",
+    "@prisma/client": "^5.0.0",
+    "@radix-ui/react-progress": "^1.1.7",
+    "@radix-ui/react-scroll-area": "^1.2.10",
+    "@radix-ui/react-select": "^2.2.6",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-tabs": "^1.1.13",
+    "axios": "^1.6.0",
+    "bcryptjs": "^2.4.3",
+    "chart.js": "^4.5.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "iron-session": "^8.0.0",
+    "lucide-react": "^0.294.0",
+    "next": "^15.5.6",
+    "next-auth": "^4.24.11",
+    "react": "18.3.1",
+    "react-chartjs-2": "^5.3.0",
+    "react-dom": "18.3.1",
+    "react-dropzone": "^14.3.8",
+    "react-hook-form": "^7.48.0",
+    "react-hot-toast": "^2.4.1",
+    "swr": "^2.3.6",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "24.8.1",
+    "@types/react": "19.2.2",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "prisma": "^5.0.0",
+    "tailwindcss": "^3.4.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.0.0"
+  },
+  "prisma": {
+    "seed": "tsx src/data/seed.ts"
+  }
+}
