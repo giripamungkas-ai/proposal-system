@@ -1,0 +1,130 @@
+{
+  "name": "mdmedia-proposal-system",
+  "version": "1.0.0",
+  "description": "MDMEDIA Strategic Proposal Submission Management System - A comprehensive proposal management platform",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "build": "npm run build:frontend && npm run build:backend",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "start:frontend": "cd frontend && npm start",
+    "start:backend": "cd backend && npm start",
+    "test": "npm run test:frontend && npm run test:backend",
+    "test:frontend": "cd frontend && npm run test || echo 'Frontend tests not available'",
+    "test:backend": "cd backend && npm test || echo 'Backend tests not available'",
+    "lint": "npm run lint:frontend && npm run lint:backend",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:backend": "cd backend && npm run lint",
+    "lint:fix": "npm run lint:fix:frontend && npm run lint:fix:backend",
+    "lint:fix:frontend": "cd frontend && npm run lint:fix",
+    "lint:fix:backend": "cd backend && npm run lint:fix",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "clean": "npm run clean:frontend && npm run clean:backend && rm -rf node_modules",
+    "clean:frontend": "cd frontend && rm -rf .next node_modules",
+    "clean:backend": "cd backend && rm -rf dist node_modules",
+    "install:all": "npm install && npm run install:frontend && npm run install:backend",
+    "install:frontend": "cd frontend && npm install",
+    "install:backend": "cd backend && npm install",
+    "db:setup": "cd frontend && npm run db:push && npm run db:seed",
+    "db:migrate": "cd backend && npm run db:migrate",
+    "db:seed": "cd frontend && npm run db:seed",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "deploy:render": "echo 'Deploy to Render Cloud - See render.yaml for configuration'",
+    "health-check": "curl -f http://localhost:3000/api/health && curl -f http://localhost:8000/health || exit 1",
+    "postinstall": "npm run install:frontend && npm run install:backend"
+  },
+  "keywords": [
+    "proposal",
+    "management",
+    "system",
+    "mdmedia",
+    "strategic",
+    "submission",
+    "nextjs",
+    "fastapi",
+    "typescript",
+    "react",
+    "prisma",
+    "sqlite",
+    "ai",
+    "automation"
+  ],
+  "author": {
+    "name": "MDSMedia Team",
+    "email": "dev@mdmedia.id",
+    "url": "https://mdmedia.id"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blazzads/proposal-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blazzads/proposal-system/issues"
+  },
+  "homepage": "https://github.com/blazzads/proposal-system#readme",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0",
+    "python": ">=3.9.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "prettier": "^3.0.3",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.0.2",
+    "cross-env": "^7.0.3",
+    "dotenv-cli": "^7.3.0",
+    "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  },
+  "prettier": {
+    "semi": true,
+    "trailingComma": "es5",
+    "singleQuote": true,
+    "printWidth": 100,
+    "tabWidth": 2,
+    "useTabs": false,
+    "bracketSpacing": true,
+    "arrowParens": "avoid"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

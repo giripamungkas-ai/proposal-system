@@ -1,6 +1,151 @@
-fastapi
-uvicorn[standard]
-litefs
-python-dotenv
-pydantic
-sqlite-utils
+# MDMEDIA Strategic Proposal System - Backend Requirements
+# FastAPI + Uvicorn for high-performance API
+fastapi>=0.104.1
+uvicorn[standard]>=0.24.0
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+
+# Database
+sqlite-utils>=3.36.0
+sqlalchemy>=2.0.23
+alembic>=1.13.1
+databases[sqlite]>=0.8.0
+aiosqlite>=0.19.0
+
+# Authentication & Security
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+python-multipart>=0.0.6
+cryptography>=41.0.8
+bcrypt>=4.1.2
+
+# HTTP & API
+httpx>=0.25.2
+aiohttp>=3.9.1
+requests>=2.31.0
+urllib3>=2.1.0
+
+# File Processing & Documents
+PyPDF2>=3.0.1
+python-docx>=1.1.0
+openpyxl>=3.1.2
+python-magic>=0.4.27
+Pillow>=10.1.0
+reportlab>=4.0.7
+
+# Data Processing & Utilities
+pandas>=2.1.4
+numpy>=1.26.2
+openpyxl>=3.1.2
+xlrd>=2.0.1
+xlsxwriter>=3.1.9
+csv>=1.0
+
+# Email & Notifications
+aiosmtplib>=3.0.1
+email-validator>=2.1.0
+jinja2>=3.1.2
+markdown>=3.5.1
+
+# WebSocket & Real-time
+websockets>=12.0
+socketio>=5.10.0
+python-socketio>=5.10.0
+
+# Caching & Performance
+redis>=5.0.1
+hiredis>=2.2.3
+cachetools>=5.3.2
+memory-profiler>=0.61.0
+
+# Task Queue & Background Jobs
+celery>=5.3.4
+kombu>=5.3.4
+billiard>=4.2.0
+
+# Logging & Monitoring
+structlog>=23.2.0
+loguru>=0.7.2
+prometheus-client>=0.19.0
+psutil>=5.9.6
+
+# Testing & Quality
+pytest>=7.4.3
+pytest-asyncio>=0.21.1
+pytest-cov>=4.1.0
+pytest-mock>=3.12.0
+httpx>=0.25.2
+factory-boy>=3.3.0
+
+# Development Tools
+black>=23.11.0
+isort>=5.12.0
+flake8>=6.1.0
+mypy>=1.7.1
+pre-commit>=3.6.0
+
+# API Documentation
+fastapi-users>=12.1.2
+fastapi-pagination>=0.12.13
+fastapi-limiter>=0.1.6
+
+# File Storage & Cloud
+boto3>=1.34.0
+google-cloud-storage>=2.10.0
+azure-storage-blob>=12.19.0
+
+# AI & Machine Learning
+openai>=1.3.7
+tiktoken>=0.5.2
+transformers>=4.36.0
+torch>=2.1.1
+torchvision>=0.16.1
+
+# Data Validation & Serialization
+marshmallow>=3.20.1
+cerberus>=1.3.5
+jsonschema>=4.20.0
+
+# Date & Time Utilities
+python-dateutil>=2.8.2
+pytz>=2023.3
+arrow>=1.3.0
+
+# Configuration Management
+dynaconf>=3.2.4
+configparser>=6.0.0
+toml>=0.10.2
+
+# Utilities & Helpers
+click>=8.1.7
+rich>=13.7.0
+typer>=0.9.0
+python-slugify>=8.0.1
+faker>=20.1.0
+
+# Security & Compliance
+bandit>=1.7.5
+safety>=2.3.5
+semgrep>=1.45.0
+
+# Performance & Profiling
+py-spy>=0.3.14
+line-profiler>=4.1.1
+memory-profiler>=0.61.0
+
+# Deployment & Production
+gunicorn>=21.2.0
+hypercorn>=0.15.0
+meinheld>=1.0.2
+
+# Environment & Platform
+litefs>=0.5.0
+watchdog>=3.0.0
+python-daemon>=3.0.1
+
+# Additional Tools
+psutil>=5.9.6
+tqdm>=4.66.1
+humanize>=4.9.0
+tabulate>=0.9.0

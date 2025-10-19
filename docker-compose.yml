@@ -1,0 +1,190 @@
+version: '3.8'
+
+services:
+  # Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - proposal-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Backend Service (Node.js)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=sqlite:///app/database/proposal_system.db
+      - JWT_SECRET=${JWT_SECRET}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - FRONTEND_URL=http://localhost:3000
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - ./database:/app/database
+    networks:
+      - proposal-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Database Service (PostgreSQL - Alternative)
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=proposal_system
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - proposal-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Service (Caching & Sessions)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - proposal-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - proposal-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  proposal-network:
+    driver: bridge
+```
+
+## **📋 Package.json Summary**
+
+Berikut adalah ringkasan package.json yang telah dibuat:
+
+### **🏠 ROOT package.json**
+- **Monorepo setup** dengan workspaces
+- **Concurrent development** untuk frontend & backend
+- **Comprehensive scripts** untuk development, testing, deployment
+- **Husky & lint-staged** untuk code quality
+- **Docker support** untuk containerized deployment
+
+### **🎨 FRONTEND package.json**
+- **Next.js 14** dengan TypeScript
+- **UI Components**: Radix UI, Headless UI, Tailwind CSS
+- **State Management**: Zustand, React Query, SWR
+- **Forms**: React Hook Form dengan Zod validation
+- **Charts**: Recharts, Chart.js
+- **File Upload**: React Dropzone, UploadThing
+- **AI Integration**: OpenAI, custom AI service
+- **Testing**: Jest, Playwright, Testing Library
+- **Storybook** untuk component documentation
+- **Performance**: Bundle analyzer, Lighthouse
+
+### **🔧 BACKEND package.json**
+- **Express.js** dengan TypeScript
+- **Database**: SQLite, PostgreSQL, Prisma ORM
+- **Authentication**: JWT, Passport.js, bcrypt
+- **File Processing**: PDF, DOCX, Excel parsers
+- **Real-time**: Socket.IO, WebSocket
+- **Task Queue**: Bull Queue
+- **Monitoring**: Winston, PM2, Prometheus
+- **Testing**: Jest, Supertest, Playwright
+- **API Documentation**: Swagger/OpenAPI
+- **Security**: Helmet, CORS, Rate limiting
+
+### **🐍 Python requirements.txt**
+- **FastAPI** untuk modern API development
+- **Database**: SQLAlchemy, Alembic, SQLite utils
+- **AI/ML**: OpenAI, Transformers, PyTorch
+- **File Processing**: PyPDF2, python-docx, Pillow
+- **Performance**: Redis, Celery, async support
+- **Testing**: Pytest dengan coverage
+- **Development**: Black, isort, mypy, pre-commit
+
+## **🚀 Quick Start Commands**
+
+```bash
+# Install all dependencies
+npm run install:all
+
+# Start development servers
+npm run dev
+
+# Build for production
+npm run build
+
+# Run tests
+npm run test
+
+# Lint and format code
+npm run lint:fix
+npm run format
+
+# Docker deployment
+npm run docker:up
+
+# Database operations
+npm run db:setup
+npm run db:migrate
+npm run db:seed
+```
+
+Package.json ini dirancang untuk **production-ready** dengan **comprehensive tooling**, **security best practices**, dan **modern development workflow**! 🎯
