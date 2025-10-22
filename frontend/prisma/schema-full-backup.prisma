@@ -1,0 +1,245 @@
+//
+// =======================================================
+// MDMEDIA Strategic Proposal Submission System (R0.3)
+// Prisma Schema for SQLite3 (Optimized WAL Mode)
+// =======================================================
+//
+// Database: SQLite3
+// Optimizations: WAL mode, synchronous = NORMAL, cache_size = -2000
+// Notes: Designed for local + on-prem deployment, fast I/O and safe writes
+// -------------------------------------------------------
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./mdmedia_proposal_system.db?connection_limit=1&timeout=5000&mode=rwc"
+}
+
+// =======================================================
+// ENUMS (as strings for SQLite compatibility)
+// =======================================================
+
+// =======================================================
+// MODELS
+// =======================================================
+
+model User {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String   @unique
+  password    String
+  role        String   // ADMIN, SALES, SALES_MANAGER, PRODUCT_OWNER, BUSINESS_SOLUTION, BS_MANAGER, PROJECT_MANAGER, BIDDING_TEAM
+  managerId   Int?
+  manager     User?    @relation("UserManager", fields: [managerId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  projects           Project[]
+  approvals          Approval[]
+  proposals          Proposal[]
+  notifications      Notification[]
+  submittedRfpForms  RFPForm[]
+  uploadedAttachments Attachment[]
+  progressEntries    Progress[]
+  raisedIssues       Issue[]
+  subordinates       User[]   @relation("UserManager")
+
+  // Business Solution Relations
+  bsWorkflows        BSWorkflow[]
+  bsAssignments       BSAssignment[]
+  createdWorkflows   BSWorkflow[]
+  reviewedTasks       BSTask[]
+  createdMilestones   BSMilestone[]
+
+  // Bidding Relations
+  biddingPackages     BiddingPackage[]
+  biddingReviews      BiddingReview[]
+  createdPackages     BiddingPackage[]
+
+  // System Admin Relations
+  createdSettings      SystemSetting[]
+  adminLogs            AdminLog[]
+  createdBackups        SystemBackup[]
+
+  // Issue Tracking Relations
+  issueComments        IssueComment[]
+  issueAttachments      IssueAttachment[]
+  issueResolutions     IssueResolution[]
+  issueWatches         IssueWatch[]
+
+  // AI Relations
+  aiRequests           AIRequest[]
+  aiUsage               AIUsage[]
+  createdReports       AIPerformanceReport[]
+
+  // Security Relations
+  createdSecurityAlerts SecurityAlert[]
+  createdComplianceChecks ComplianceCheck[]
+  createdSecurityAudits  SecurityAudit[]
+
+  // Dashboard Relations
+  createdMetrics       DashboardMetric[]
+  createdDrilldowns    DashboardDrilldown[]
+
+  @@map("users")
+}
+
+model Project {
+  id              Int      @id @default(autoincrement())
+  projectCode     String   @unique
+  projectName     String
+  templateKey     String
+  requestedById   Int
+  requestedBy     User     @relation(fields: [requestedById], references: [id])
+  status          String   @default("DRAFT") // DRAFT, PENDING_SALES_MANAGER_APPROVAL, REJECTED_BY_SALES_MANAGER, PENDING_PO_COMPLETION, PO_IN_PROGRESS, PENDING_BS_PROPOSAL, BS_IN_PROGRESS, BS_PENDING_MANAGER_APPROVAL, PROPOSAL_FINALIZED, CLOSED, ON_HOLD, CANCELLED
+  budgetEstimate  Float?
+  startDate       DateTime?
+  endDate         DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  rfpForm         RFPForm?
+  attachments     Attachment[]
+  approvals       Approval[]
+  proposals       Proposal[]
+  progress        Progress[]
+  issues          Issue[]
+  auditLogs       AuditLog[]
+
+  // Business Solution Relations
+  bsWorkflow       BSWorkflow?
+  bsWorkflows      BSWorkflow[]
+  bsTasks          BSTask[]
+  bsReviews        BSReview[]
+  bsMilestones      BSMilestone[]
+  bsAssignment     BSAssignment?
+
+  // Bidding Relations
+  biddingPackage   BiddingPackage?
+  biddingPackages   BiddingPackage[]
+  biddingReviews   BiddingReview[]
+  biddingDocuments BiddingDocument[]
+  biddingHistory   BiddingHistory[]
+
+  // System Relations
+  systemSettings    SystemSetting[]
+  adminLogs         AdminLog[]
+  systemBackups     SystemBackup[]
+
+  // AI Relations
+  aiRequests        AIRequest[]
+  aiUsage            AIUsage[]
+  aiReports         AIPerformanceReport[]
+
+  // Dashboard Relations
+  dashboardMetrics   DashboardMetric[]
+  dashboardDrilldowns DashboardDrilldown[]
+
+  // Security Relations
+  securityAlerts     SecurityAlert[]
+  complianceChecks  ComplianceCheck[]
+  securityAudits    SecurityAudit[]
+
+  @@map("projects")
+}
+
+model RFPForm {
+  id            Int      @id @default(autoincrement())
+  projectId     Int      @unique
+  project       Project  @relation(fields: [projectId], references: [id])
+  formData      String   // JSON as string
+  currentStep   String?
+  submittedById Int?
+  submittedBy   User?    @relation(fields: [submittedById], references: [id])
+  submittedAt   DateTime?
+
+  @@map("rfp_forms")
+}
+
+model Attachment {
+  id           Int      @id @default(autoincrement())
+  projectId    Int
+  project      Project  @relation(fields: [projectId], references: [id])
+  uploadedById Int
+  uploadedBy   User     @relation(fields: [uploadedById], references: [id])
+  filename     String
+  filepath     String
+  filetype     String?
+  createdAt    DateTime @default(now())
+
+  @@map("attachments")
+}
+
+model Approval {
+  id          Int      @id @default(autoincrement())
+  projectId   Int
+  project     Project  @relation(fields: [projectId], references: [id])
+  approverId  Int
+  approver    User     @relation(fields: [approverId], references: [id])
+  role        String
+  decision    String
+  comment     String?
+  createdAt   DateTime @default(now())
+
+  @@map("approvals")
+}
+
+model Proposal {
+  id                Int      @id @default(autoincrement())
+  projectId         Int
+  project           Project  @relation(fields: [projectId], references: [id])
+  createdById       Int
+  createdBy         User     @relation(fields: [createdById], references: [id])
+  fileAttachmentId  Int?
+  version           Int      @default(1)
+  status            String   @default("draft")
+  watermarkInfo     String?  // JSON as string
+  createdAt         DateTime @default(now())
+  approvedAt        DateTime?
+
+  @@map("proposals")
+}
+
+model Progress {
+  id               Int      @id @default(autoincrement())
+  projectId        Int
+  project          Project  @relation(fields: [projectId], references: [id])
+  entryType        String
+  description      String?
+  percentComplete  Float?
+  reportedById     Int
+  reportedBy       User     @relation(fields: [reportedById], references: [id])
+  reportedAt       DateTime @default(now())
+
+  @@map("progress")
+}
+
+model Issue {
+  id               Int      @id @default(autoincrement())
+  projectId        Int
+  recipient   User     @relation(fields: [recipientId], references: [id])
+  channel     String
+  template    String
+  payloadJson String?  // JSON as string
+  status      String   @default("sent")
+  sentAt      DateTime @default(now())
+
+  @@map("notifications")
+}
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  userId    Int?
+  action    String
+  meta      String?  // JSON as string
+  createdAt DateTime @default(now())
+  projectId Int?
+  project   Project? @relation(fields: [projectId], references: [id])
+
+  @@map("audit_logs")
+}

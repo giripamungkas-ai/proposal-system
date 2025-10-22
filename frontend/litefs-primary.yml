@@ -1,0 +1,35 @@
+name: litefs-primary
+
+database:
+  path: /data/litefs-primary/db.sqlite
+  page_size: 4096
+  cache_size: 1000
+  sync_mode: 0
+  journal_mode: WAL
+  temp_store: memory
+
+fuse:
+  dir: /mnt/litefs-primary
+  allow-other: true
+
+http:
+  addr: :20202
+  read_timeout: 30s
+  write_timeout: 30s
+  max_connections: 100
+
+replication:
+  enabled: true
+  sync_interval: 1000
+  max_batch_size: 1000
+
+backup:
+  enabled: true
+  schedule: "0 2 * * *"
+  keep_backups: 7
+  backup_dir: /data/litefs-primary/backups
+
+monitoring:
+  enabled: true
+  metrics_interval: 30000
+  log_level: info
