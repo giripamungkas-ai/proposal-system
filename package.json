@@ -1,7 +1,7 @@
 {
   "name": "mdmedia-proposal-system",
   "version": "1.0.0",
-  "description": "MDMEDIA Strategic Proposal Submission Management Sys - A comprehensive proposal management platform",
+  "description": "MDMEDIA Strategic Proposal Submission Management System - A comprehensive proposal management platform",
   "private": true,
   "workspaces": [
     "frontend",
