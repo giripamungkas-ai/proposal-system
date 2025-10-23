@@ -1,0 +1,18 @@
+[Unit]
+Description=LiteFS Primary Database Service
+After=network.target local-fs.target
+
+[Service]
+Type=exec
+User=litefs
+Group=litefs
+ExecStart=/usr/local/bin/litefs mount -config /etc/litefs/litefs-primary.yml
+ExecReload=/bin/kill -USR2 $MAINPID
+KillMode=process
+Restart=always
+RestartSec=3
+LimitNOFILE=65536
+MemoryMax=1G
+
+[Install]
+WantedBy=multi-user.target

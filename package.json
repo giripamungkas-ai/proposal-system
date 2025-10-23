@@ -1,7 +1,7 @@
 {
   "name": "mdmedia-proposal-system",
   "version": "1.0.0",
-  "description": "MDMEDIA Strategic Proposal Submission Management System - A comprehensive proposal management platform",
+  "description": "MDMEDIA Strategic Proposal Submission Management Sys - A comprehensive proposal management platform",
   "private": true,
   "workspaces": [
     "frontend",
@@ -67,15 +67,15 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/blazzads/proposal-system.git"
+    "url": "https://github.com/giripamungkas-ai/proposal-system"
   },
   "bugs": {
-    "url": "https://github.com/blazzads/proposal-system/issues"
+    "url": "https://github.com/giripamungkas-ai/proposal-system/issues"
   },
-  "homepage": "https://github.com/blazzads/proposal-system#readme",
+  "homepage": "https://github.com/giripamungkas-ai/proposal-system#readme",
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=8.0.0",
+    "node": ">=20.0.0",
+    "npm": ">=9.0.0",
     "python": ">=3.9.0"
   },
   "devDependencies": {

@@ -1,0 +1,34 @@
+name: litefs-replica
+
+database:
+  path: /data/litefs-replica/db.sqlite
+  page_size: 4096
+  cache_size: 1000
+  sync_mode: 0
+  journal_mode: WAL
+  temp_store: memory
+
+fuse:
+  dir: /mnt/litefs-replica
+  allow-other: true
+
+http:
+  addr: :20203
+  read_timeout: 30s
+  write_timeout: 30s
+  max_connections: 50
+
+upstream:
+  url: http://localhost:20202
+  retry_interval: 5000
+  max_retries: 3
+
+cache:
+  enabled: true
+  cache_size: 50
+  cache_ttl: 300
+
+monitoring:
+  enabled: true
+  metrics_interval: 30000
+  log_level: info
